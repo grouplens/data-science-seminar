@@ -1,0 +1,41 @@
+---
+title: "1/24 walkthrough"
+output: html_notebook
+---
+
+Walkthrough of <http://r4ds.had.co.nz/data-visualisation.html>.
+
+Github repo: <https://github.com/grouplens/data-science-seminar>.
+
+
+## Intro
+
+Have to load the tidyverse
+
+```{r setup, echo=FALSE}
+library(tidyverse)
+```
+
+There are datasets built in:
+
+```{r}
+mpg
+```
+
+You can ask for docs
+
+```{r}
+?mpg
+```
+
+You can create a plot:
+
+```{r}
+mpg %>%
+ggplot(mapping = aes(x=displ, y=hwy)) + 
+  geom_point(position = "jitter") +
+  geom_smooth(method = "loess")
+```
+
+
+
