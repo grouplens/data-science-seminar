@@ -7,11 +7,13 @@ output: html_notebook
 library(tidyverse)
 ```
 
-
 This dataset was created by Eva Zhong, based on a movielens experiment 
 led by Tahir Sousa.
 
 The dataset contains one observation per user-login. A row appears for any user who viewed one or more movie trailers during their session.  The Algorithm represents a recommendation algorithm they were given, which was randomly assigned on each login.
+
+* `count_total_played` -- total number of movie trailers started during the login session
+* `count_rec_played` -- total number of movie trailers played *from a list of recommendations* started during the login session
 
 ```{r read-dataset, echo=FALSE}
 conditions <- c("ShuffledTopPicks", "TagSimilarity", "PredictedRating", "FilmReleaseDate")
@@ -21,55 +23,24 @@ trailer_activities <- readr::read_csv("trailer_activities.csv",
                                             loginId = col_character(),
                                             Algorithm = col_factor(conditions, ordered = TRUE),
                                             count_total_played = col_integer(),
-                                            count_rec_played = col_double(),
-                                            count_refresh = col_double()
+                                            count_rec_played = col_double()
                                           ))
 trailer_activities
 ```
 
-Some users viewed lots of trailers! Here are some summary stats:
+## task: make a histogram
 
-```{r summary-stats, echo=FALSE}
-trailer_activities %>% 
-  group_by(Algorithm) %>% 
-  summarise(
-    total_played = n(),
-    mean_played = mean(count_total_played),
-    max_played = max(count_total_played),
-    min_played = min(count_total_played),
-    sd_PL = sd(count_total_played),
-    SE_PL = sd(count_total_played)/sqrt(n())
-  )
-```
-
-
-## histograms!
-
-Plot a histogram of `count_total_played` using `geom_histogram`.
-
-* try `binwidth` in geom_histogram
-* try adding `coord_cartesian(xlim = c(0, 20))` (or with ylim)
-
+* plot a histogram of `count_total_played` using `geom_histogram`
+* try setting `binwidth` in geom_histogram
+* try adding `coord_cartesian(xlim = c(0, 20))` (or, try using a ylim)
 
 ```{r}
-1 + 1
-```
-
-
-
-```{r}
-ggplot(trailer_activities, mapping=aes(x=count_refresh)) +
+ggplot(trailer_activities, mapping=aes(x=count_total_played)) +
   geom_histogram(binwidth=1) +
   coord_cartesian(ylim = c(0, 1000))
 ```
 
-
-hello, world!
-
-
-
-
-## scatter plots!
+## task: make scatter plots
 
 Plot the relationship between `count_total_played` and `count_rec_played` using:
 
@@ -77,27 +48,45 @@ Plot the relationship between `count_total_played` and `count_rec_played` using:
 * geom_jitter
 * geom_count
 
+Also:
+
+* use a `facet_wrap` to split the chart by algorithm
 
 ```{r foo}
 ggplot(trailer_activities, mapping=aes(x=count_total_played, y=count_rec_played)) +
-  geom_point(alpha=0.1)
-```
-
-
-
-## bar charts!
-
-Visualize `count_rec_played` across the four algorithms using a bar chart 
-
-
-```{r}
-ggplot(trailer_activities, mapping=aes(x=count_total_played, y=count_rec_played)) +
-  geom_jitter()
-```
-
-```{r}
-ggplot(trailer_activities, mapping=aes(x=count_total_played, y=count_rec_played)) +
-  geom_jitter() +
+  geom_point(alpha=0.1) +
   facet_wrap(~ Algorithm)
 ```
 
+## summary stats
+
+Here are aggregate stats of recommended play actions, grouped by algorithm:
+
+```{r summary-stats}
+trailer_activities_summary <- trailer_activities %>% 
+  group_by(Algorithm) %>% 
+  summarise(
+    total_played = n(),
+    mean_rec_played = mean(count_rec_played),
+    max_rec_played = max(count_rec_played),
+    min_rec_played = min(count_rec_played),
+    std_err_rec_played = sd(count_rec_played)/sqrt(n())
+  )
+trailer_activities_summary
+```
+
+
+## task: make a bar chart!
+
+Are the number of observations balanced between the four experimental algorithms?
+Build a bar chart of this tibble by Algorithm.
+
+* use `geom_col`, charting Algorithm by mean_rec_played
+* try adding another geom: `geom_errorbar(aes(ymin = mean_rec_played - std_err_rec_played, ymax = mean_rec_played + std_err_rec_played))`
+    
+
+```{r}
+ggplot(trailer_activities_summary, aes(x = Algorithm, y = mean_rec_played)) +
+  geom_col() + 
+  geom_errorbar(aes(ymin = mean_rec_played - std_err_rec_played, ymax = mean_rec_played + std_err_rec_played))
+```
