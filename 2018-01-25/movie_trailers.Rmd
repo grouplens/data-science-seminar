@@ -34,11 +34,6 @@ trailer_activities
 * try setting `binwidth` in geom_histogram
 * try adding `coord_cartesian(xlim = c(0, 20))` (or, try using a ylim)
 
-```{r}
-ggplot(trailer_activities, mapping=aes(x=count_total_played)) +
-  geom_histogram(binwidth=1) +
-  coord_cartesian(ylim = c(0, 1000))
-```
 
 ## task: make scatter plots
 
@@ -52,11 +47,6 @@ Also:
 
 * use a `facet_wrap` to split the chart by algorithm
 
-```{r foo}
-ggplot(trailer_activities, mapping=aes(x=count_total_played, y=count_rec_played)) +
-  geom_point(alpha=0.1) +
-  facet_wrap(~ Algorithm)
-```
 
 ## summary stats
 
@@ -84,9 +74,3 @@ Build a bar chart of this tibble by Algorithm.
 * use `geom_col`, charting Algorithm by mean_rec_played
 * try adding another geom: `geom_errorbar(aes(ymin = mean_rec_played - std_err_rec_played, ymax = mean_rec_played + std_err_rec_played))`
     
-
-```{r}
-ggplot(trailer_activities_summary, aes(x = Algorithm, y = mean_rec_played)) +
-  geom_col() + 
-  geom_errorbar(aes(ymin = mean_rec_played - std_err_rec_played, ymax = mean_rec_played + std_err_rec_played))
-```
