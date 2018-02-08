@@ -1,0 +1,62 @@
+Use the house_prices.csv dataset for this purpose.
+
+Here are the important fields you should know:
+
+'tx_price' - Transaction price in USD
+'sqft' - Total floor area in squared feet
+'lot_size' - Total outside area in squared feet
+'median_age' - Median age of the neighborhood
+'year_built' - Year property was built
+'nightlife' - Number of nightlife venues within 1 mile
+'beauty_spas' - Number of beauty and spa locations within 1 mile
+‘roof’ - roof type
+‘exterior walls’ - exterior wall type
+‘property_type’ - kind of property
+
+
+Download the dataset from the slack channel if you have not already done so.
+
+Open your R script file and load the .csv file by navigating to the downloaded directory. Try using getwd() and setwd() for practice.
+
+Great! Now form a new dataset containing only the fields:
+
+Examine the distribution of the exterior_walls variable (Hint: Use a bar chart). 
+Aaah! The labels on the x-axis are too close to each other. Could you try flipping them to the y-dimension? 
+That's much better. Which kind of exterior walls are least common? Can you tell that looking at the plot? Confirm your answer by looking at the actual counts.
+Do you notice any unusual type of exterior wall? 
+How about missing values? Replace them by 'NA's and save in a new data frame called house_prices3. 
+Now plot the distribution of exterior walls again using the new dataframe. What does ggplot do with the missing values?
+
+Which year had the maximum number of sales?
+
+Obtain a histogram of the variable median_age. 
+Now, overlay multiple histograms in the same plot to see how they vary based on the type of exterior wall used. 
+Use bin widths of 1,5, and 20. What do you notice?
+
+Examine the distribution of sale prices of properties broken down by property type. 
+On an average, what kind of houses are more expensive? 
+
+Examine the distribution of plot areas of properties broken down by property type. 
+On an average, which kind of houses are larger? 
+Which kind of property sees a greater variance in sizes? 
+Does the difference in distributions in classes make intuitive sense? 
+
+Examine the distribution of sale prices of properties broken down by exterior wall type.
+First try flipping the coordinates to get a better view of the labels.
+Now, can you reorder from the highest median to the lowest median to see which one is used in the most expensive properties?
+
+What do you expect of the relationship between number of nightlife venues within 1 mile and the number of beauty and spa locations within 1 mile? 
+Plot the relationship. What do you see?
+Suppose you wish to bin one continuous variable so it acts like a categorical variable. Accomplish this by varying cut widths of 1,2, 5 and 10 for the nightlife variable. What do you observe?
+
+Examine the relationship between roof type and exterior walls type.
+Don’t see anything? Just to make sure there are values, compute the counts using dplyr.
+There are! But the counts are too small to be significant. Why don’t you try visualising with geom_tile() and the fill aesthetic?
+Much better!
+
+Plot the distribution of lot sizes. 
+What does this distribution tell you?
+Which values do you think you should discard?
+Zoom to small values of the x-axis to see what happens. Try varying the upper limit of the cartesian coordinates in increments of 5000. What do you observe? 
+Use the summary() command to obtain the distribution of the lot_size variable. Now do you change your decision about which values do you think you should discard?
+
