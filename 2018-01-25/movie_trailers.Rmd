@@ -16,15 +16,7 @@ The dataset contains one observation per user-login. A row appears for any user 
 * `count_rec_played` -- total number of movie trailers played *from a list of recommendations* started during the login session
 
 ```{r read-dataset, echo=FALSE}
-conditions <- c("ShuffledTopPicks", "TagSimilarity", "PredictedRating", "FilmReleaseDate")
-trailer_activities <- readr::read_csv("trailer_activities.csv",
-                                          col_types = cols_only(
-                                            userId = col_character(),
-                                            loginId = col_character(),
-                                            Algorithm = col_factor(conditions, ordered = TRUE),
-                                            count_total_played = col_integer(),
-                                            count_rec_played = col_double()
-                                          ))
+trailer_activities <- readRDS("./trailer_activies.rds")
 trailer_activities
 ```
 
